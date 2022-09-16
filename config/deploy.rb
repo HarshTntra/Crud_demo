@@ -17,7 +17,7 @@ set :application_name, 'crud_demo'
 set :user, 'jigar'
 set :domain, '172.16.18.99'
 set :deploy_to, '/var/www/crud_demo.com'
-set :repository, 'git@github.com:HarshTntra/Crud_demo.git'
+set :repository, 'git@github.com:HarshTntra/crud_demo.git'
 set :branch, 'master'
 set :rvm_use_path, '/home/jigar/.rvm/scripts/rvm'
 set :linked_files, %w[config/database.yml config/master.key]
