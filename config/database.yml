@@ -84,5 +84,5 @@ test:
 production:
   <<: *default
   database: crud_demo_production
-  username: jigar
-  password: 123456
+  username: crud_demo
+  password: <%= ENV['CRUD_DEMO_DATABASE_PASSWORD'] %>
