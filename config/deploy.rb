@@ -53,21 +53,21 @@ end
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task setup: :remote_environment do
-  command %(sudo mkdir -p "#{fetch(:shared_path)}/log")
+  command %(mkdir -p "#{fetch(:shared_path)}/log")
   command %(chmod g+rx,u+rwx "#{fetch(:shared_path)}/log")
 
   # command %[touch "#{fetch(:shared_path)}/config/puma.rb"]
 
-  command %(sudo mkdir -p "#{fetch(:shared_path)}/config")
+  command %(mkdir -p "#{fetch(:shared_path)}/config")
   command %(chmod g+rx,u+rwx "#{fetch(:shared_path)}/config")
 
   command %(touch "#{fetch(:shared_path)}/config/database.yml")
   command %(echo "-----> Be sure to edit '#{fetch(:shared_path)}/config/database.yml'.")
 
   # Puma needs a place to store its pid file and socket file.
-  command %(sudo mkdir -p "#{fetch(:shared_path)}/tmp/sockets")
+  command %(mkdir -p "#{fetch(:shared_path)}/tmp/sockets")
   command %(chmod g+rx,u+rwx "#{fetch(:shared_path)}/tmp/sockets")
-  command %(sudo mkdir -p "#{fetch(:shared_path)}/tmp/pids")
+  command %(mkdir -p "#{fetch(:shared_path)}/tmp/pids")
 
   # command %[mkdir -p "#{fetch(:shared_path)}/tmp/pids"]
   command %(chmod g+rx,u+rwx "#{fetch(:shared_path)}/tmp/pids")
