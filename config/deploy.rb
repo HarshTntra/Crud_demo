@@ -4,12 +4,21 @@ require 'mina/git'
 require 'mina/rvm'
 require 'mina/puma'
 require 'mina/multistage'
+# require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
+# require 'mina/rvm'    # for rvm support. (https://rvm.io)
+
+# Basic settings:
+#   domain       - The hostname to SSH to.
+#   deploy_to    - Path to deploy into.
+#   repository   - Git repo to clone from. (needed by mina/git)
+#   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'crud_demo'
 set :user, 'jigar'
 set :domain, '172.16.18.99'
 set :deploy_to, '/var/www/crud_demo.com'
-set :repository, 'git@github.com:BoTreeConsultingTeam/reward-backend.git'
+set :repository, 'git@github.com:HarshTntra/Crud_demo.git'
+set :branch, 'master'
 set :rvm_use_path, '$HOME/.rvm/scripts/rvm'
 set :linked_files, %w[config/database.yml config/master.key]
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
@@ -17,11 +26,6 @@ set :keep_releases, '2'
 set :forward_agent, true
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/master.key')
 
-# Basic settings:
-#   domain       - The hostname to SSH to.
-#   deploy_to    - Path to deploy into.
-#   repository   - Git repo to clone from. (needed by mina/git)
-#   branch       - Branch name to deploy. (needed by mina/git)
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -42,8 +46,8 @@ task :remote_environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use', 'ruby-1.9.3-p125@default'
-  invoke :'rvm:use', 'ruby-3.1.0@default'
+  # invoke :'rvm:use', 'ruby-2.5.3@default'
+  invoke :'rvm:use', 'ruby-2.7.2@default'
 end
 
 # Put any custom commands you need to run at setup
@@ -71,7 +75,7 @@ task setup: :remote_environment do
   command %(touch "#{fetch(:shared_path)}/config/master.key")
 end
 
-desc 'Deploys the current version to the server'
+desc "Deploys the current version to the server."
 task deploy: :remote_environment do
   # uncomment this line to make sure you pushed your local branch to the remote origin
   # invoke :'git:ensure_pushed'
@@ -87,10 +91,8 @@ task deploy: :remote_environment do
 
     on :launch do
       in_path(fetch(:current_path)) do
-        command "mkdir -p #{fetch(:deploy_to)}/#{fetch(:current_path)}/tmp/"
+       command "mkdir -p #{fetch(:deploy_to)}/#{fetch(:current_path)}/tmp/"
         command "touch #{fetch(:deploy_to)}/#{fetch(:current_path)}/tmp/restart.txt"
-        # invoke :'puma:stop'
-        # invoke :'puma:start'
       end
     end
   end
@@ -102,4 +104,3 @@ end
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - https://github.com/mina-deploy/mina/tree/master/docs
-
